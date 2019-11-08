@@ -4,6 +4,4 @@
 
 ### Summary
 
-- React Router
-- React Styling with Bloomer
-- Challenge to rebuild the weather API front-end project within React
+We were introduced to React Router and using the popular Bulma css framework in react with the bloomer package. 

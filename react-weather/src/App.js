@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { loadData } from "./utils/loadData";
+import Search from "./components/search";
+class App extends Component {
+    state = {
+        city: "Kansas City",
+        data: null
+    };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    async componentDidMount() {
+        let location = this.state.city;
+        const data = await loadData(
+            `https://api.openweathermap.org/data/2.5/weather?q=${location},US&appid=2f4580c1da2a1471787ee4c356181fd1`
+        );
+
+        this.setState({
+            data
+        });
+    }
+
+    handleCitySubmit(e) {
+      e.preventDefault();
+      e.persist();
+      console.log(e.target.value);
+    }
+
+    render() {
+        const { data } = this.state;
+        console.log('render of app.js', data);
+        return (
+            <>
+                <div>
+                    {data ? (
+                        <Search 
+                        handleCitySubmit={this.handleCitySubmit} />
+                    ) : (
+                        <p>Fetching Data</p>
+                    )}
+                </div>
+            </>
+        );
+    }
 }
 
 export default App;
